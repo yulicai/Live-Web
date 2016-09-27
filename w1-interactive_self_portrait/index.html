@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Finger and Portrait</title>
+	<img id = "portrait1" src = "./assets/img1.png">
+	<img id = "portrait2" src = "./assets/img2.png">
+	<img id = "portrait3" src = "./assets/img3.png">
+	<img id = "portrait4" src = "./assets/img4.png">
+	<img id = "portrait5" src = "./assets/img5.png">
+	<style type="text/css">
+		#portrait1, #portrait2, #portrait3, #portrait4, #portrait5{
+			position: absolute;
+			left: 300px;
+			top: 0px;
+			
+		}
+		#videoElement, #videoCanvas{
+			display: none;
+		}
+		#Explaination{
+			position: absolute;
+			margin-left: 40px;
+			font-size: 20px;
+			font-family: sans-serif;
+			color: pink ;
+			z-index: 10000;
+		}
+		.hide{
+			visibility: hidden;
+			opacity: 0.0;
+			z-index: 0;
+		}
+		.show{
+			visibility: visible;
+			opacity: 1.0;
+			z-index: 999;
+		}
+	</style>
+<script src="./jquery.js"></script>
+</head>
+<body>
+<canvas id = "videoCanvas" width = "1425" height="800"></canvas>
+<p id = "Explaination">Good Morning!!!<br>Cover your hand <br>in front of your camera. </p>
+<video autoplay = "true" id = "videoElement" ></video>
+<script src="./app.js"></script>
+
+
+</body>
+</html>

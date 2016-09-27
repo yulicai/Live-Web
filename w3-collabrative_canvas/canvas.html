@@ -1,0 +1,151 @@
+<html>
+
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+    var thecontext;
+    var thecanvas;
+
+    var receiveCanvas;
+    var receiveContext;
+
+    var socket = io.connect();
+
+    var objects = [];
+    var userName;
+
+    socket.on('connect', function() {
+        console.log("Connected");
+        userName = prompt("Who are you? ");
+        socket.emit('newId', socket.id, userName);
+    });
+
+
+    socket.on('newId', function(id, name) {
+        var unicObject = {
+            x: Math.random() * 1000,
+            y: Math.random() * 800,
+            px: 100,
+            py: 300,
+            id: id,
+            r: Math.floor(Math.random()* 255),
+            g: Math.floor(Math.random()* 255),
+            b: Math.floor(Math.random()* 255),
+            name: name
+        }
+        objects.push(unicObject);
+        console.log('Objects Number: ' + objects.length);
+    });
+
+
+    socket.on('sendObject', function(drawingdata) {
+        console.log(drawingdata);
+        var rPx = 0;
+        var rPy = 0;
+        // for (var i = 0; i < drawingdata.length; i++) {
+            receiveContext.font = "16px Helvetica";
+            // receiveContext.fillStyle = "#63656a";
+            receiveContext.fillStyle = 'rgb(' + drawingdata.r + ',' + drawingdata.g + ',' + drawingdata.b +')';
+            receiveContext.fillText(drawingdata.name,drawingdata.px + 5, drawingdata.py);
+            receiveContext.beginPath();
+            receiveContext.moveTo(drawingdata.px, drawingdata.py);
+            receiveContext.lineTo(drawingdata.x, drawingdata.y);
+            receiveContext.lineWidth = 6;
+            receiveContext.strokeStyle = 'rgb(' + drawingdata.r + ',' + drawingdata.g + ',' + drawingdata.b +')';
+            receiveContext.stroke();
+            rPx = drawingdata.x;
+            rPy = drawingdata.y;
+
+        // }
+
+    });
+
+
+    var px, py, x, y;
+    var drawingmode;
+
+    var tempX = 0;
+    var tempY = 0;
+
+    function init() {
+
+        px = 0;
+        py = 0;
+        x = 0;
+        y = 0;
+        drawingmode = false;
+
+        thecanvas = document.getElementById('thecanvas');
+        thecontext = thecanvas.getContext('2d');
+
+        receiveCanvas = document.getElementById('receiveCanvas');
+        receiveContext = receiveCanvas.getContext('2d');
+
+        thecontext.clearRect(0, 0, 600, 400);
+        receiveContext.clearRect(0, 0, 600, 400);
+
+        onRequestAnimation();
+    }
+
+    function onRequestAnimation() {
+
+        thecanvas.addEventListener('mousedown',
+            function() {
+                px = tempX;
+                py = tempY;
+                drawingmode = true;
+
+            });
+        thecanvas.addEventListener('mouseup', function() {
+            drawingmode = false;
+
+        });
+
+
+        thecanvas.addEventListener('mousemove', function(evt) {
+            tempX = evt.clientX;
+            tempY = evt.clientY;
+
+        })
+
+        if (drawingmode) {
+            x = tempX;
+            y = tempY;
+            thecontext.beginPath();
+            thecontext.moveTo(px, py);
+            thecontext.lineTo(x, y);
+            thecontext.strokeStyle = '#FC4E03'
+            thecontext.stroke();
+
+
+            for (var i = 0; i < objects.length; i++) {
+                if (socket.id == objects[i].id) {
+                    objects[i].px = px;
+                    objects[i].py = py;
+                    objects[i].x = x;
+                    objects[i].y = y;
+                    socket.emit('sendObject', objects[i]);
+                    break;
+                }
+            }
+            px = x;
+            py = y;
+
+        }
+
+
+        // socket.emit('sendObject', objects);
+        requestAnimationFrame(onRequestAnimation);
+    }
+
+    window.addEventListener('load', init);
+    </script>
+</head>
+
+<body>
+    <canvas id="receiveCanvas" width="1400" height="800"></canvas>
+    <canvas id="thecanvas" width="1400" height="800"></canvas>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<html>
+	<head>
+        <title>Chat Room</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src=./chat.js></script>	
+	</head>
+ <body>
+    <h2 style="text-align:center;font-family:verdana;font-size:22px"> Rules of Game</h2>
+     <p name="description" style="text-align:center;font-family:verdana;font-size:16px"> Everybody gets a word from the director. Four of you get a different word than others get. But they are similar.  e.g.. Apple and Pineapple <br>
+        Whoever gets the different ones, they do not know that they are the spy.<br>
+         Go around the room and describe your word, in a sentence, another word, a metaphor, whatever you can come up with to type in and send to all.<br>
+         You can not lie while describing your word, you can not mention the word itself.<br>
+         After a round, everybody types in the name that they think is the spy to vote. Top of the vote gets kicked out by the director.<br>
+         Which team survive in the end, wins. yay </p>
+ <div id="messages">
+     <h1 id="timer">Welcome to Chat</h1>
+ </div>
+ <input type="text" id="message" name="message" onkeydown="if(event.keyCode == 13){sendmessage(document.getElementById('message').value);}">
+ <input type="submit" value="message" onclick="sendmessage(document.getElementById('message').value);">
+<input type="text" id="target" name="target" onkeydown="if(event.keyCode == 13){setTarget(document.getElementById('target').value);}">
+<input type ="submit" value="target" onclick="setTarget(document.getElementById('target').value);">
+ </body>
+</html>
