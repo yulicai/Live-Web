@@ -1,0 +1,6 @@
+#receiveCanvas, #thecanvas{
+	position: absolute;
+}
+#videoElement, #videoPreHoldCanvas{
+	display: none;
+}
