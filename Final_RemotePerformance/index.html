@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Audience </title>
+    <script src="peer.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+
+    <style>
+        body {
+            background-color: powderblue;
+        }
+
+        input {
+            position: absolute;
+            top: 90px;
+            border: 4px solid black;
+            border-radius: 4px;
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #0a1e3f;
+            font-family: "Helvetica Neue";
+            font-size: 24px;
+        }
+
+        h2 {
+            background-color: #000000;
+            margin-bottom: 5px;
+            color: #ffffff;
+            font-family: "Helvetica Neue";
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        h3 {
+            color: #0a1e3f;
+            font-family: "Helvetica Neue";
+            font-size: 16px;
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        button,
+        button:hover:disabled {
+            display: block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            border: 1px solid #25729a;
+            font-family: =helvetica;
+            padding: 10px 10px 10px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            background-color: #000000;
+        }
+
+        #livestream {
+            position: absolute;
+            top: 450px;
+            left: 500px;
+            z-index: 999;
+            /*position: absolute;
+      bottom: 100px;*/
+        }
+
+        #onlineVideo {
+            position: absolute;
+            top: 200px;
+            z-index: 0;
+        }
+
+        #allVideos {
+            position: relative;
+            top: 720px;
+        }
+
+        #submitVideo,
+        #showTime {
+            position: absolute;
+            top: 140px;
+            float: left;
+
+        }
+        #showTime{
+          left: 80px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h2>Please share the video you want our performer to watch</br>Share it with embeded code</br>e.g.-->> youtube >> Share >> "Embed" tab</h2>
+
+    <input type="text" id="message" name="message">
+    <button id="submitVideo" type="button" value="submit" onclick="addVideo(document.getElementById('message').value); videoTimer();"> submit </button>
+    <div id="showTime">
+        <h3> enjoy the show time for one minute</h3>
+    </div>
+    <div id="onlineVideo">
+
+        </br>
+    </div>
+
+    <div id="livestream">
+        <h2 id="liveStreamLable">I am watching</h2>
+        <img src="" id="liveStreamHolder">
+    </div>
+
+
+    <div id="allVideos">
+
+    </div>
+
+</body>
+
+</html>
